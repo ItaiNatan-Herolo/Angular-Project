@@ -4,17 +4,21 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { HeroesComponent } from './heroes/heroes.component';
+import { MainComponent } from './components/main/main.component';
+import { TableComponent } from './components/table/table.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeroesComponent
+    MainComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    ScrollingModule
+    ScrollingModule, 
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

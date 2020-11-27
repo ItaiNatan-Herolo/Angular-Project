@@ -1,0 +1,17 @@
+<table>
+
+    <tr>
+        <!--ths headers of the table-->
+        <th *ngFor="let head of headers">
+            {{head}}
+        </th>
+    </tr>
+
+    <tr *ngFor="let item of items">
+        <!--ths items of the table-->
+        <td *ngFor="let head of headers">
+            {{item[head]}}
+        </td>
+    </tr>
+
+</table>
