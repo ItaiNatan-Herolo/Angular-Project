@@ -1,4 +1,3 @@
-<table>
 
     <tr>
         <!--ths headers of the table-->
@@ -8,12 +7,13 @@
         </th>
     </tr>
 
-    <tr *ngFor="let item of items; let i = index">
-        <td class="box"> {{ i + 1}} </td>
-        <!--ths items of the table-->
-        <td class="box" *ngFor="let head of headers">
-            {{item[head]}}
-        </td>
-    </tr>
+    <cdk-virtual-scroll-viewport #scroller itemSize="150" class="container">
+        <tr *cdkVirtualFor="let item of items; let i = index" class="row">
+            <td class="box"> {{ i + 1}} </td>
+            <!--ths items of the table-->
+            <td class="box" *ngFor="let head of headers">
+                {{item[head]}}
+            </td>
+        </tr>
+    </cdk-virtual-scroll-viewport>
 
-</table>
