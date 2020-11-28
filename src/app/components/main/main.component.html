@@ -1,4 +1,13 @@
 <div>
-    <app-table [items]="items" [headers]="filteredHeaders">
-    </app-table>
+
+    <h1> Users: </h1>
+
+    <div class="filter-container">
+        <input class="filter-input" (input)="onFilterChange($event)" placeholder="Filter By"/>
+    </div>
+
+    <div class="table-container">
+        <app-table [items]="filteredItems" [headers]="filteredHeaders">
+        </app-table>
+    </div>
 </div>

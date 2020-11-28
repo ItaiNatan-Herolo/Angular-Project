@@ -1,12 +1,14 @@
+// Imports
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+
+// Components
+import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
 import { TableComponent } from './components/table/table.component';
-import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    ScrollingModule, 
+    ScrollingModule,
     HttpClientModule
   ],
   providers: [],
