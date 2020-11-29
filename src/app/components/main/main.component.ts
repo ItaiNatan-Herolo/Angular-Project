@@ -30,8 +30,8 @@ export class MainComponent implements OnInit, OnDestroy {
   public items: Array<Item> = [];
   public filteredItems: Array<Item> = [];
 
-  public headers: Array<string> = [];
-  public filteredHeaders: Array<string> = [];
+  public headers = [];
+  public filteredHeaders = [];
 
   public filterBy = new BehaviorSubject<string>('');
 
@@ -45,6 +45,17 @@ export class MainComponent implements OnInit, OnDestroy {
 
   //
   // Handlers
+  setHeaderChecked(label, checked) {
+    console.log(checked);
+
+    if (checked) {
+      
+      this.filteredHeaders = [...this.filteredHeaders, label];
+    } else {
+      this.filteredHeaders = this.filteredHeaders.filter(header => header !== label);
+    }
+  }
+
   onFilterChange(e) {
     this.filterBy.next(e.target.value);
   }
@@ -59,7 +70,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   fetchMoreData() {
-    console.log(this.page)
+    console.log(this.page);
     this.page.next(this.page.value + 1);
   }
 
@@ -80,8 +91,10 @@ export class MainComponent implements OnInit, OnDestroy {
           this.filteredItems = this.filterItemsBySearch();
 
           if (counter === 1) {
-            this.headers = Object.keys(data[0]);
-            this.filteredHeaders = this.headers.slice(0, 3);
+            this.filteredHeaders = Object.keys(data[0]).slice(0, 3);
+            this.headers = Object.keys(data[0]).map(key => {
+              return { key, label: key, checked: this.filteredHeaders.includes(key) }
+            });
             this.loading = false;
           }
 

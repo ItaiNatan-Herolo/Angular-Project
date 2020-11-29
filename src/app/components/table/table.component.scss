@@ -5,6 +5,10 @@
   vertical-align: bottom;
   padding: 20px 100px;
   width: 200px;
+
+  .no-width {
+    width: 0
+  }
 }
 
 .box {

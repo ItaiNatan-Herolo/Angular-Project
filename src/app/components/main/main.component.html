@@ -9,6 +9,18 @@
         <input class="filter-input" (input)="onFilterChange($event)" placeholder="Filter By" />
     </div>
 
+    <div class="select-headers">
+        <span> Selected columns: </span>
+        <div *ngFor="let header of headers" class="checkbox">
+            <label class="chechbox-container">
+                <input type="checkbox" [(ngModel)]="header.checked" (change)="setHeaderChecked(header.label, header.checked)" />
+                {{header.label}}
+                <span class="checkmark"></span>
+            </label>
+        </div>
+    </div>
+
+
     <div class="table-container">
         <app-table [items]="filteredItems" [headers]="filteredHeaders" [fetchMoreData]="fetchMoreData">
         </app-table>
