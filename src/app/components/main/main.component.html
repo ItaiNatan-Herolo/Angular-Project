@@ -13,7 +13,15 @@
                 <mat-option *ngFor="let header of headers" [value]="header.key">{{header.value}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <input class="filter-input" [value]="filterBy.value" (input)="onFilterChange($event)" placeholder="Filter By" />
+        <!-- <input class="filter-input" [value]="filterBy.value" (input)="onFilterChange($event)" placeholder="Filter By" /> -->
+        <mat-form-field class="example-form-field">
+            <mat-label>Clearable input</mat-label>
+            <input matInput type="text" [value]="filterBy.value" (input)="onFilterChange($event)">
+            <button mat-button *ngIf="filterBy.value" matSuffix mat-icon-button aria-label="Clear"
+                (click)="onFilterChange('')">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
     </div>
 
     <div class="select-headers">
@@ -28,23 +36,18 @@
         </div>
     </div>
 
-    <ng-container *ngIf="loadingTable; else table">
-        <div class="loader"></div>
+
+    <ng-container *ngIf="filteredItems.length; else noResults">
+        <div class="table-container">
+            <app-table [items]="filteredItems" [headers]="filteredHeaders" (fetchMoreData)="fetchMoreData()">
+            </app-table>
+        </div>
     </ng-container>
 
-    <ng-template #table>
-        <ng-container *ngIf="filteredItems.length; else noResults">
-            <div class="table-container">
-                <app-table [items]="filteredItems" [headers]="filteredHeaders" [fetchMoreData]="fetchMoreData">
-                </app-table>
-            </div>
-        </ng-container>
-
-        <ng-template #noResults>
-            <div class="no-results">
-                No results for your search...
-            </div>
-        </ng-template>
+    <ng-template #noResults>
+        <div class="no-results">
+            No results for your search...
+        </div>
     </ng-template>
 
 

@@ -7,6 +7,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 // Components
 import { AppComponent } from './app.component';
@@ -26,7 +28,9 @@ import { TableComponent } from './components/table/table.component';
     HttpClientModule,
     FormsModule,
     MatSelectModule,
-    MatTableModule
+    MatInputModule,
+    MatTableModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

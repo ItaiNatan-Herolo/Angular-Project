@@ -41,11 +41,9 @@ export class MainComponent implements OnInit, OnDestroy {
   private $destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
   public loadingPage = false;
-  public loadingTable = false;
-
 
   constructor(private dataService: DataService) {
-    this.onFilterChange = debounce(this.onFilterChange, 500);
+    this.onFilterChange = debounce(this.onFilterChange, 300);
   }
 
   @ViewChild('input') input: ElementRef;
@@ -53,7 +51,9 @@ export class MainComponent implements OnInit, OnDestroy {
   //
   // API
   getItems(filterSearch: boolean = false) {
-    filterSearch ? this.loadingTable = true : this.loadingPage = true;
+    if (this.page.value === 1) {
+      this.loadingPage = true;
+    }
 
     this.dataService.getData(this.page.value, this.selectBy.value, this.filterBy.value)
       .pipe(
@@ -76,7 +76,6 @@ export class MainComponent implements OnInit, OnDestroy {
         }
 
         this.loadingPage = false;
-        this.loadingTable = false;
       });
   }
 
@@ -105,7 +104,7 @@ export class MainComponent implements OnInit, OnDestroy {
   //
   // Events
   onFilterChange(e) {
-    const query = e.target.value;
+    const query = e?.target?.value ?? e;
     this.filterBy.next(query);
   }
 
