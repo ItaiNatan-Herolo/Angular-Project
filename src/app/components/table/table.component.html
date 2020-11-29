@@ -1,22 +1,22 @@
 <tr>
     <!--ths headers of the table-->
-    <th class="header no-width"> # </th>
     <th class="header" *ngFor="let head of headers">
         {{head.charAt(0).toUpperCase() + head.slice(1)}}
     </th>
 </tr>
 
-<cdk-virtual-scroll-viewport #scroller itemSize="109" class="container">
+<cdk-virtual-scroll-viewport #scroller itemSize="69" class="container">
     <!--ths items of the table-->
     <tr *cdkVirtualFor="let item of items; let i = index" class="row">
-        <td class="box"> {{ i + 1}} </td>
         <td class="box" *ngFor="let head of headers">
             {{item[head]}}
         </td>
     </tr>
 
     <ng-container *ngIf="loading">
-        loading...
+        <div class="loading">
+            Loading more...
+        </div>
     </ng-container>
 
 </cdk-virtual-scroll-viewport>

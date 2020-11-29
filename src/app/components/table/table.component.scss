@@ -3,8 +3,8 @@
   border-bottom: 2px solid #dee2e6;
   font-size: 18px;
   vertical-align: bottom;
-  padding: 20px 100px;
-  width: 200px;
+  padding: 10px 50px;
+  width: 150px;
 
   .no-width {
     width: 0
@@ -15,18 +15,27 @@
   border-top: 1px solid #dee2e6;
   vertical-align: top;
   font-size: 15px;
-  padding: 20px 100px;
+  padding: 10px 50px;
   display: flex;
   justify-content: center;
-  width: 200px;
+  width: 150px;
   align-items: center;
 }
 
 .container {
-  height: 440px;
+  height: 400px;
+  direction: rtl;
 }
 
 .row {
-  height: 109px;
+  height: 69px;
   display: flex;
+  direction: ltr;
+}
+
+.loading {
+  display: flex;
+  justify-content: flex-start;
+  direction: ltr;
+  padding-left: 3rem;
 }
