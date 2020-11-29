@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   <nav class="navbar">
     <h2>ironSource Assignment</h2>
   </nav>`,
-  styles:[`
+  styles: [`
     nav.navbar {
       background-color: var(--navbar-bg-color);
       color: var(--color-primary);
@@ -18,6 +18,8 @@ import { Component } from '@angular/core';
     h2 {
       margin: auto;
     }
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavbarComponent  {}
+
+export class NavbarComponent { }

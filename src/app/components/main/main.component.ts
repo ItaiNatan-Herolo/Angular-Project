@@ -1,5 +1,5 @@
 // Imports
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DataService } from './../../services/data.service';
@@ -21,7 +21,6 @@ interface Item {
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 //
@@ -43,7 +42,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   public loadingPage = false;
 
-  constructor(private dataService: DataService, private cdr: ChangeDetectorRef) {
+  constructor(private dataService: DataService) {
     this.onFilterChange = debounce(this.onFilterChange, 300);
   }
 
@@ -52,7 +51,7 @@ export class MainComponent implements OnInit, OnDestroy {
   //
   // API
   getItems(filterSearch: boolean = false) {
-    if (this.page.value === 1) {
+    if (this.page.value === 1 && !filterSearch) {
       this.loadingPage = true;
     }
 
@@ -77,7 +76,6 @@ export class MainComponent implements OnInit, OnDestroy {
         }
 
         this.loadingPage = false;
-        this.cdr.detectChanges();
       });
   }
 
