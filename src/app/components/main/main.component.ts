@@ -1,9 +1,9 @@
 // Imports
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DataService } from './../../services/data.service';
-import * as _ from 'lodash';
+import { debounce } from 'lodash';
 
 //
 // Interfaces
@@ -43,8 +43,12 @@ export class MainComponent implements OnInit, OnDestroy {
   public loadingPage = false;
   public loadingTable = false;
 
+
   constructor(private dataService: DataService) {
+    this.onFilterChange = debounce(this.onFilterChange, 500);
   }
+
+  @ViewChild('input') input: ElementRef;
 
   //
   // API
@@ -124,6 +128,5 @@ export class MainComponent implements OnInit, OnDestroy {
     this.$destroy.next(true);
     this.$destroy.complete();
   }
-
 
 }
