@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DataService } from './../../services/data.service';
+import * as _ from 'lodash';
 
 //
 // Interfaces
@@ -100,7 +101,8 @@ export class MainComponent implements OnInit, OnDestroy {
   //
   // Events
   onFilterChange(e) {
-    this.filterBy.next(e.target.value);
+    const query = e.target.value;
+    this.filterBy.next(query);
   }
 
   onSelect(e) {
