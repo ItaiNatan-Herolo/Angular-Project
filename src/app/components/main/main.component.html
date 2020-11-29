@@ -1,8 +1,8 @@
-<ng-container *ngIf="loadingPage; else elseTemplate">
+<ng-container *ngIf="loadingPage; else mainPage">
     <div class="loader"></div>
 </ng-container>
 
-<ng-template #elseTemplate>
+<ng-template #mainPage>
     <h1> Users: </h1>
 
     <div class="filter-container">
