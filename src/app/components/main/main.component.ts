@@ -37,7 +37,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   private $destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
-  public loading = new BehaviorSubject<boolean>(false);
+  public loading = false;
 
   constructor(private dataService: DataService) {
   }
@@ -67,14 +67,14 @@ export class MainComponent implements OnInit, OnDestroy {
   //
   // LifeCycle
   ngOnInit(): void {
-    this.page.subscribe(counter => {
+    this.loading = true;
 
+    this.page.subscribe(counter => {
       this.dataService.getData(counter)
         .pipe(
           takeUntil(this.$destroy)
         )
         .subscribe(({ data }) => {
-          this.loading.next(true);
 
           this.items = [...this.items, ...data];
           this.filteredItems = this.filterItemsBySearch();
@@ -82,8 +82,8 @@ export class MainComponent implements OnInit, OnDestroy {
           if (counter === 1) {
             this.headers = Object.keys(data[0]);
             this.filteredHeaders = this.headers.slice(0, 3);
+            this.loading = false;
           }
-          this.loading.next(false);
 
         });
 

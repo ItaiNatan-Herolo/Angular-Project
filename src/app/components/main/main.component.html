@@ -1,6 +1,7 @@
 <ng-container *ngIf="loading; else elseTemplate">
-    loading...
+    <div class="loader"></div>
 </ng-container>
+
 <ng-template #elseTemplate>
     <h1> Users: </h1>
 
