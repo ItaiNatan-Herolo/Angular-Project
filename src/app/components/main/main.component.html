@@ -6,6 +6,13 @@
     <h1> Users: </h1>
 
     <div class="filter-container">
+        <mat-form-field appearance="fill">
+            <mat-label>Select an header to filter by:</mat-label>
+            <mat-select (selectionChange)="onSelect($event)">
+                <mat-option [value] = ''>None</mat-option>
+                <mat-option *ngFor="let header of headers" [value]="header.key">{{header.value}}</mat-option>
+            </mat-select>
+        </mat-form-field>
         <input class="filter-input" (input)="onFilterChange($event)" placeholder="Filter By" />
     </div>
 
@@ -13,8 +20,9 @@
         <span> Selected columns: </span>
         <div *ngFor="let header of headers" class="checkbox">
             <label class="chechbox-container">
-                <input type="checkbox" [(ngModel)]="header.checked" (change)="setHeaderChecked(header.label, header.checked)" />
-                {{header.label}}
+                <input type="checkbox" [(ngModel)]="header.checked"
+                    (change)="setHeaderChecked(header.value, header.checked)" />
+                {{header.value}}
                 <span class="checkmark"></span>
             </label>
         </div>

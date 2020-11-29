@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 // Components
 import { AppComponent } from './app.component';
@@ -22,7 +23,8 @@ import { TableComponent } from './components/table/table.component';
     BrowserAnimationsModule,
     ScrollingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

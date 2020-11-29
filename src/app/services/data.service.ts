@@ -10,15 +10,12 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
-  getData(page: number): Observable<any> {
+  getData(page: number, header: String = '', query: String = ''): Observable<any> {
+    let route = `https://5fc38d6be5c28f0016f54b3a.mockapi.io/users?p=${page}&l=20`;
 
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'app-id': '5fc0cb62a319a2dda1fedc79'
-      })
-    };
-
-    return this.http.get(`https://dummyapi.io/data/api/user?limit=20&page=${page}`, options);
+    if (header && query) {
+      route = `${route}&${header}=${query}`
+    }
+    return this.http.get(route);
   }
 }
