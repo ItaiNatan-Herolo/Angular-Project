@@ -1,9 +1,9 @@
-<ng-container *ngIf="loadingPage; else mainPage">
-    <div class="loader"></div>
-</ng-container>
+<ng-template #loader>
+    <mat-spinner></mat-spinner>
+</ng-template>
 
-<ng-template #mainPage>
-    <h1> Users: </h1>
+<main *ngIf="!loadingPage; else loader">
+    <h1> Search Fields: </h1>
 
     <div class="filter-container">
         <mat-form-field appearance="fill" class="select-filter">
@@ -14,13 +14,10 @@
             </mat-select>
         </mat-form-field>
         <!-- <input class="filter-input" [value]="filterBy.value" (input)="onFilterChange($event)" placeholder="Filter By" /> -->
-        <mat-form-field class="example-form-field">
+        <mat-form-field appearance="fill" class="search-field">
+            <mat-icon matPrefix>search</mat-icon>
             <mat-label>Clearable input</mat-label>
             <input matInput type="text" [value]="filterBy.value" (input)="onFilterChange($event)">
-            <button mat-button *ngIf="filterBy.value" matSuffix mat-icon-button aria-label="Clear"
-                (click)="onFilterChange('')">
-                <mat-icon>close</mat-icon>
-            </button>
         </mat-form-field>
     </div>
 
@@ -51,4 +48,4 @@
     </ng-template>
 
 
-</ng-template>
+</main>

@@ -9,17 +9,20 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 // Components
 import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
 import { TableComponent } from './components/table/table.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     TableComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,7 +33,8 @@ import { TableComponent } from './components/table/table.component';
     MatSelectModule,
     MatInputModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
