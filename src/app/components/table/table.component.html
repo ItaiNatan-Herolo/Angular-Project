@@ -1,19 +1,22 @@
+<tr>
+    <!--ths headers of the table-->
+    <th class="header"> # </th>
+    <th class="header" *ngFor="let head of headers">
+        {{head}}
+    </th>
+</tr>
 
-    <tr>
-        <!--ths headers of the table-->
-        <th class="header"> # </th>
-        <th class="header" *ngFor="let head of headers">
-            {{head}}
-        </th>
+<cdk-virtual-scroll-viewport #scroller itemSize="109" class="container">
+    <!--ths items of the table-->
+    <tr *cdkVirtualFor="let item of items; let i = index" class="row">
+        <td class="box"> {{ i + 1}} </td>
+        <td class="box" *ngFor="let head of headers">
+            {{item[head]}}
+        </td>
     </tr>
 
-    <cdk-virtual-scroll-viewport #scroller itemSize="150" class="container">
-        <tr *cdkVirtualFor="let item of items; let i = index" class="row">
-            <td class="box"> {{ i + 1}} </td>
-            <!--ths items of the table-->
-            <td class="box" *ngFor="let head of headers">
-                {{item[head]}}
-            </td>
-        </tr>
-    </cdk-virtual-scroll-viewport>
+    <ng-container *ngIf="loading">
+        loading...
+    </ng-container>
 
+</cdk-virtual-scroll-viewport>

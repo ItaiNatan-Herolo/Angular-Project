@@ -1,13 +1,15 @@
-<div>
-
+<ng-container *ngIf="loading; else elseTemplate">
+    loading...
+</ng-container>
+<ng-template #elseTemplate>
     <h1> Users: </h1>
 
     <div class="filter-container">
-        <input class="filter-input" (input)="onFilterChange($event)" placeholder="Filter By"/>
+        <input class="filter-input" (input)="onFilterChange($event)" placeholder="Filter By" />
     </div>
 
     <div class="table-container">
-        <app-table [items]="filteredItems" [headers]="filteredHeaders">
+        <app-table [items]="filteredItems" [headers]="filteredHeaders" [fetchMoreData]="fetchMoreData">
         </app-table>
     </div>
-</div>
+</ng-template>

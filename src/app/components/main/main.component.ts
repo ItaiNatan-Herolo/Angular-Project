@@ -1,12 +1,18 @@
-import { DataService } from './../../services/data.service';
+// Imports
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DataService } from './../../services/data.service';
 
-interface Car {
-  brand: string;
-  model: string;
-  year: number;
+//
+// Interfaces
+interface Item {
+  id: string;
+  title: string;
+  picture: string;
+  email: string;
+  firstName: string;
+  lastName: string;
 }
 
 @Component({
@@ -15,13 +21,14 @@ interface Car {
   styleUrls: ['./main.component.scss']
 })
 
-
+//
+// Class
 export class MainComponent implements OnInit, OnDestroy {
 
   public page = new BehaviorSubject<number>(1);
 
-  public items = [];
-  public filteredItems = [];
+  public items: Array<Item> = [];
+  public filteredItems: Array<Item> = [];
 
   public headers: Array<string> = [];
   public filteredHeaders: Array<string> = [];
@@ -30,13 +37,14 @@ export class MainComponent implements OnInit, OnDestroy {
 
   private $destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
+  public loading = new BehaviorSubject<boolean>(false);
+
   constructor(private dataService: DataService) {
   }
 
-  increment() {
-    this.page.next(+1);
-  }
 
+  //
+  // Handlers
   onFilterChange(e) {
     this.filterBy.next(e.target.value);
   }
@@ -46,28 +54,39 @@ export class MainComponent implements OnInit, OnDestroy {
       return this.items;
     }
     else {
-      const filtered = this.items.filter(item => {
-        return this.filteredHeaders.some(key => {
-          return item[key].toLowerCase().includes(this.filterBy.value.toLowerCase());
-        });
-      });
 
-      
     }
   }
 
+  fetchMoreData() {
+    console.log(this.page)
+    this.page.next(this.page.value + 1);
+  }
+
+
+  //
+  // LifeCycle
   ngOnInit(): void {
     this.page.subscribe(counter => {
+
       this.dataService.getData(counter)
         .pipe(
           takeUntil(this.$destroy)
         )
         .subscribe(({ data }) => {
-          this.items = data;
+          this.loading.next(true);
+
+          this.items = [...this.items, ...data];
           this.filteredItems = this.filterItemsBySearch();
-          this.headers = Object.keys(data[0]);
-          this.filteredHeaders = this.headers.slice(0, 3);
+
+          if (counter === 1) {
+            this.headers = Object.keys(data[0]);
+            this.filteredHeaders = this.headers.slice(0, 3);
+          }
+          this.loading.next(false);
+
         });
+
     });
 
     this.filterBy.subscribe(() => this.filterItemsBySearch());
