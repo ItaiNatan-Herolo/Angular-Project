@@ -8,11 +8,12 @@ import { DataService } from './../../services/data.service';
 // Interfaces
 interface Item {
   id: string;
-  title: string;
-  picture: string;
+  age: number;
+  company: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  name: string;
+  phone: string;
+  region: string;
 }
 
 @Component({
@@ -33,20 +34,50 @@ export class MainComponent implements OnInit, OnDestroy {
   public headers = [];
   public filteredHeaders = [];
 
-  public selectBy = '';
+  public selectBy = new BehaviorSubject<string>('');
   public filterBy = new BehaviorSubject<string>('');
 
   private $destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
-  public loading = false;
+  public loadingPage = false;
+  public loadingTable = false;
 
   constructor(private dataService: DataService) {
   }
 
+  //
+  // API
+  getItems(filterSearch: boolean = false) {
+    filterSearch ? this.loadingTable = true : this.loadingPage = true;
+
+    this.dataService.getData(this.page.value, this.selectBy.value, this.filterBy.value)
+      .pipe(
+        takeUntil(this.$destroy)
+      )
+      .subscribe((data: Array<Item>) => {
+
+        if (filterSearch) {
+          this.filteredItems = [...data];
+        } else {
+          this.items = [...this.items, ...data];
+          this.filteredItems = [...this.items];
+        }
+
+        if (this.page.value === 1 && data.length) {
+          this.filteredHeaders = Object.keys(data[0]).slice(0, 3);
+          this.headers = Object.keys(data[0]).map(key => {
+            return { key, value: key, checked: this.filteredHeaders.includes(key) }
+          });
+        }
+
+        this.loadingPage = false;
+        this.loadingTable = false;
+      });
+  }
 
   //
   // Handlers
-  setHeaderChecked(value, checked) {
+  setHeaderChecked(value: String, checked: String) {
     if (checked) {
       this.filteredHeaders = [...this.filteredHeaders, value];
     } else {
@@ -54,19 +85,17 @@ export class MainComponent implements OnInit, OnDestroy {
     }
   }
 
-  filterItemsBySearch() {
-    if (!this.filterBy.value) {
-      return this.items;
-    }
-    else {
-
+  filterItems() {
+    if (this.filterBy.value && this.selectBy.value) {
+      this.getItems(true);
+    } else {
+      this.filteredItems = this.items;
     }
   }
 
   fetchMoreData() {
     this.page.next(this.page.value + 1);
   }
-
 
   //
   // Events
@@ -75,38 +104,18 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   onSelect(e) {
-    console.log(e)
+    this.selectBy.next(e.value);
   }
 
 
   //
   // LifeCycle
   ngOnInit(): void {
-    this.loading = true;
+    this.page.subscribe(() => this.getItems());
 
-    this.page.subscribe(counter => {
-      this.dataService.getData(counter, this.selectBy, this.filterBy.value)
-        .pipe(
-          takeUntil(this.$destroy)
-        )
-        .subscribe((data) => {
+    this.filterBy.subscribe(() => this.filterItems());
 
-          this.items = [...this.items, ...data];
-          this.filteredItems = this.filterItemsBySearch();
-
-          if (counter === 1) {
-            this.filteredHeaders = Object.keys(data[0]).slice(0, 3);
-            this.headers = Object.keys(data[0]).map(key => {
-              return { key, value: key, checked: this.filteredHeaders.includes(key) }
-            });
-            this.loading = false;
-          }
-
-        });
-
-    });
-
-    this.filterBy.subscribe(() => this.filterItemsBySearch());
+    this.selectBy.subscribe(() => this.filterItems());
   }
 
   ngOnDestroy(): void {

@@ -2,7 +2,7 @@
     <!--ths headers of the table-->
     <th class="header no-width"> # </th>
     <th class="header" *ngFor="let head of headers">
-        {{head}}
+        {{head.charAt(0).toUpperCase() + head.slice(1)}}
     </th>
 </tr>
 
