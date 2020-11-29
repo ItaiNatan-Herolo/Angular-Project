@@ -1,6 +1,6 @@
 .filter-input {
   width: 20rem;
-  height: 2rem;
+  height: 3rem;
   margin-left: 1rem;
 }
 
@@ -40,4 +40,12 @@
   margin-top: 3rem;
   font-size: 20px;
   font-weight: 700;
+}
+
+.filter-container {
+  display: flex;
+}
+
+.select-filter {
+  width: 270px;
 }

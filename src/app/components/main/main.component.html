@@ -6,7 +6,7 @@
     <h1> Users: </h1>
 
     <div class="filter-container">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" class="select-filter">
             <mat-label>Select an header to filter by:</mat-label>
             <mat-select [value]="selectBy" (selectionChange)="onSelect($event)">
                 <mat-option [value]=''>None</mat-option>
