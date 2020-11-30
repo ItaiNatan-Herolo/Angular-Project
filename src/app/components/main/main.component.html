@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <ng-container *ngIf="filteredItems.length; else noResults">
+    <ng-container *ngIf="filteredItems.length || loadingForFilter; else noResults">
         <div class="table-container">
             <app-table [data]="filteredItems" [headers]="filteredHeaders" (fetchMoreData)="fetchMoreData()">
             </app-table>

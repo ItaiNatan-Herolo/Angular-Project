@@ -28,6 +28,7 @@ interface Item {
 export class MainComponent implements OnInit, OnDestroy {
 
   public page = new BehaviorSubject<number>(1);
+  public filterPage = new BehaviorSubject<number>(1);
 
   public items: Array<Item> = [];
   public filteredItems: Array<Item> = [];
@@ -38,9 +39,12 @@ export class MainComponent implements OnInit, OnDestroy {
   public selectBy = new BehaviorSubject<string>('');
   public filterBy = new BehaviorSubject<string>('');
 
-  private $destroy: ReplaySubject<boolean> = new ReplaySubject(1);
-
   public loadingPage = false;
+  public loadingForFilter = false;
+
+  public isFilterSearch = false;
+
+  private $destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private dataService: DataService) {
     this.onFilterChange = debounce(this.onFilterChange, 300);
@@ -48,14 +52,14 @@ export class MainComponent implements OnInit, OnDestroy {
 
   //
   // API
-  getItems(isFilterSearch: boolean = false) {
+  getItems() {
 
     // set loading only on the initial page
-    if (this.page.value === 1 && !isFilterSearch) {
+    if (this.page.value === 1 && !this.isFilterSearch) {
       this.loadingPage = true;
     }
 
-    const page: number = isFilterSearch ? 1 : this.page.value;
+    const page: number = this.isFilterSearch ? this.filterPage.value : this.page.value;
 
     // api request
     this.dataService.getData(page, this.selectBy.value, this.filterBy.value)
@@ -65,15 +69,15 @@ export class MainComponent implements OnInit, OnDestroy {
       .subscribe((data: Array<Item>) => {
 
         // save the data
-        if (isFilterSearch) {
-          this.filteredItems = [...data];
+        if (this.isFilterSearch) {
+          this.filteredItems = [...this.filteredItems, ...data];
         } else {
           this.items = [...this.items, ...data];
           this.filteredItems = [...this.items];
         }
 
         // set the headers table
-        if (this.page.value === 1 && data.length && !isFilterSearch) {
+        if (this.page.value === 1 && data.length && !this.isFilterSearch) {
           this.filteredHeaders = Object.keys(data[0]).slice(0, 3);
           this.headers = Object.keys(data[0]).map(key => {
             return { key, value: key, checked: this.filteredHeaders.includes(key) }
@@ -81,6 +85,8 @@ export class MainComponent implements OnInit, OnDestroy {
         }
 
         this.loadingPage = false;
+        this.loadingForFilter = false;
+
       });
   }
 
@@ -89,15 +95,20 @@ export class MainComponent implements OnInit, OnDestroy {
   filterItems() {
     // function for set data on filtered by queries or not
     if (this.filterBy.value && this.selectBy.value) {
-      this.getItems(true);
+      this.isFilterSearch = true;
+      this.filteredItems = [];
+      this.loadingForFilter = true;
+      this.filterPage.next(1);
     } else {
+      this.isFilterSearch = false;
       this.filteredItems = this.items;
     }
   }
 
   fetchMoreData() {
     // the function for sending to table to get more data on scroll
-    this.page.next(this.page.value + 1);
+    this.isFilterSearch ? this.filterPage.next(this.filterPage.value + 1)
+      : this.page.next(this.page.value + 1);
   }
 
   //
@@ -126,6 +137,8 @@ export class MainComponent implements OnInit, OnDestroy {
   // LifeCycle
   ngOnInit(): void {
     this.page.subscribe(() => this.getItems());
+
+    this.filterPage.subscribe(() => this.isFilterSearch && this.getItems());
 
     this.filterBy.subscribe(() => this.filterItems());
 
