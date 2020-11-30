@@ -2,6 +2,6 @@
 
 👉🏽 [Demo](https://iron-source-project.netlify.app/)
 
-🌟 Football Data site is an app that give you the data about football teams from England. 
+🌟 Infinite scroll table with [mock data from](https://www.mockapi.io/docs). 
 
-💻 Built with Angular | TypeScript | SCSS | Material - UI | RXJS.
+💻 Built with Angular | TypeScript | SCSS | Material - UI | RXJS | Virtual scroll.
