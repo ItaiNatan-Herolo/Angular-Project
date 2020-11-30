@@ -12,11 +12,11 @@ import { map, pairwise, filter, throttleTime } from 'rxjs/operators';
 })
 
 //
-// Class
+// Class - to display the table in the app
 export class TableComponent implements AfterViewInit, OnChanges {
 
   // Inputs
-  @Input() items = [];
+  @Input() data = [];
   @Input() headers = [];
   @Output() fetchMoreData = new EventEmitter();
 
@@ -28,8 +28,8 @@ export class TableComponent implements AfterViewInit, OnChanges {
   //
   // LifeCycle
   ngOnChanges(changes: SimpleChanges): void {
-    // set loading false after items change
-    if (changes.items) {
+    // set loading false after data change
+    if (changes.data) {
       this.loading = false;
     }
   }
@@ -39,10 +39,11 @@ export class TableComponent implements AfterViewInit, OnChanges {
     this.scroller.elementScrolled().pipe(
       map(() => this.scroller.measureScrollOffset('bottom')),
       pairwise(),
-      filter(([y1, y2]) => (y2 < y1 && y2 < 180)),
+      filter(([y1, y2]) => (y2 < y1 && y2 < 10)),
       throttleTime(200)
     ).subscribe(() => {
-      // execute out of the ng-zone 
+      // execute out of the ng-zone
+      // setting loading true and calling the function from father component to get more data 
       this.ngZone.run(() => {
         this.loading = true;
         this.fetchMoreData.emit();

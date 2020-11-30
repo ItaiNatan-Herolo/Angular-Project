@@ -46,7 +46,7 @@ table.table {
 
 .container {
   display: flex;
-  height: 70vh;
+  height: 60vh;
   direction: rtl;
 
   .row {
@@ -65,10 +65,9 @@ table.table {
 }
 
 .loading {
-  height: 10vh;
+  height: 3vh;
   display: grid;
   place-items: center;
   direction: ltr;
-  padding-left: 3rem;
-  font-size: 2rem;
+  font-size: 1rem;
 }

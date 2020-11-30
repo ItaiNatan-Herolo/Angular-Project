@@ -1,5 +1,7 @@
+// Imports
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+// Component - to display the navbar of the app
 @Component({
   selector: 'app-navbar',
   template: `

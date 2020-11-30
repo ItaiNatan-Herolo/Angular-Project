@@ -1,24 +1,25 @@
 <table class="table">
+
     <tr>
-        <!--ths headers of the table-->
+        <!--the headers of the table-->
         <th class="header" *ngFor="let head of headers">
             {{head.charAt(0).toUpperCase() + head.slice(1)}}
         </th>
     </tr>
 
     <cdk-virtual-scroll-viewport #scroller itemSize="140" class="container">
-        <!--ths items of the table-->
-        <tr *cdkVirtualFor="let item of items; let i = index" class="row">
+        <!--the items of the table-->
+        <tr *cdkVirtualFor="let item of data; let i = index" class="row">
             <td class="box" *ngFor="let head of headers" [title]="item[head]">
                 {{item[head]}}
             </td>
         </tr>
-
-        <ng-container *ngIf="loading">
-            <div class="loading">
-                Loading more...
-            </div>
-        </ng-container>
-
     </cdk-virtual-scroll-viewport>
+    
 </table>
+
+<ng-container *ngIf="loading">
+    <div class="loading">
+        Loading more...
+    </div>
+</ng-container>

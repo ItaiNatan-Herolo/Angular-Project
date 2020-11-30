@@ -24,7 +24,7 @@ interface Item {
 })
 
 //
-// Class
+// Class - the main page
 export class MainComponent implements OnInit, OnDestroy {
 
   public page = new BehaviorSubject<number>(1);
@@ -46,29 +46,34 @@ export class MainComponent implements OnInit, OnDestroy {
     this.onFilterChange = debounce(this.onFilterChange, 300);
   }
 
-  @ViewChild('input') input: ElementRef;
-
   //
   // API
-  getItems(filterSearch: boolean = false) {
-    if (this.page.value === 1 && !filterSearch) {
+  getItems(isFilterSearch: boolean = false) {
+
+    // set loading only on the initial page
+    if (this.page.value === 1 && !isFilterSearch) {
       this.loadingPage = true;
     }
 
-    this.dataService.getData(this.page.value, this.selectBy.value, this.filterBy.value)
+    const page: number = isFilterSearch ? 1 : this.page.value;
+
+    // api request
+    this.dataService.getData(page, this.selectBy.value, this.filterBy.value)
       .pipe(
         takeUntil(this.$destroy)
       )
       .subscribe((data: Array<Item>) => {
 
-        if (filterSearch) {
+        // save the data
+        if (isFilterSearch) {
           this.filteredItems = [...data];
         } else {
           this.items = [...this.items, ...data];
           this.filteredItems = [...this.items];
         }
 
-        if (this.page.value === 1 && data.length) {
+        // set the headers table
+        if (this.page.value === 1 && data.length && !isFilterSearch) {
           this.filteredHeaders = Object.keys(data[0]).slice(0, 3);
           this.headers = Object.keys(data[0]).map(key => {
             return { key, value: key, checked: this.filteredHeaders.includes(key) }
@@ -81,15 +86,8 @@ export class MainComponent implements OnInit, OnDestroy {
 
   //
   // Handlers
-  setHeaderChecked(value: String, checked: String) {
-    if (checked) {
-      this.filteredHeaders = [...this.filteredHeaders, value];
-    } else {
-      this.filteredHeaders = this.filteredHeaders.filter(header => header !== value);
-    }
-  }
-
   filterItems() {
+    // function for set data on filtered by queries or not
     if (this.filterBy.value && this.selectBy.value) {
       this.getItems(true);
     } else {
@@ -98,20 +96,31 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   fetchMoreData() {
+    // the function for sending to table to get more data on scroll
     this.page.next(this.page.value + 1);
   }
 
   //
   // Events
   onFilterChange(e) {
+    // save the value from the input
     const query = e?.target?.value ?? e;
     this.filterBy.next(query);
   }
 
   onSelect(e) {
+    // save the value from the select
     this.selectBy.next(e.value);
   }
 
+  setHeaderChecked(value: String, checked: String) {
+    // save the values from the checkbox
+    if (checked) {
+      this.filteredHeaders = [...this.filteredHeaders, value];
+    } else {
+      this.filteredHeaders = this.filteredHeaders.filter(header => header !== value);
+    }
+  }
 
   //
   // LifeCycle

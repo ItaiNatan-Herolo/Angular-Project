@@ -3,6 +3,7 @@
 </ng-template>
 
 <main *ngIf="!loadingPage; else loader">
+
     <h1> Search Fields: </h1>
 
     <div class="filter-container">
@@ -13,7 +14,6 @@
                 <mat-option *ngFor="let header of headers" [value]="header.key">{{header.value}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <!-- <input class="filter-input" [value]="filterBy.value" (input)="onFilterChange($event)" placeholder="Filter By" /> -->
         <mat-form-field appearance="fill" class="search-field">
             <mat-icon matPrefix>search</mat-icon>
             <mat-label>Search field</mat-label>
@@ -33,10 +33,9 @@
         </div>
     </div>
 
-
     <ng-container *ngIf="filteredItems.length; else noResults">
         <div class="table-container">
-            <app-table [items]="filteredItems" [headers]="filteredHeaders" (fetchMoreData)="fetchMoreData()">
+            <app-table [data]="filteredItems" [headers]="filteredHeaders" (fetchMoreData)="fetchMoreData()">
             </app-table>
         </div>
     </ng-container>
@@ -46,6 +45,5 @@
             No results for your search...
         </div>
     </ng-template>
-
 
 </main>
