@@ -3,11 +3,11 @@
 
 
 :root {
-    --color-primary: #4EC2C2;
-    --background-color: #48474D;
-    --navbar-bg-color: #5B5351;
-    --text: #ffffff;
-  }
+  --color-primary: #4EC2C2;
+  --background-color: #48474D;
+  --navbar-bg-color: #5B5351;
+  --text: #ffffff;
+}
 
 
 $ironsource-primary: mat-palette($mat-light-blue);
@@ -17,23 +17,20 @@ $ironsource-warn: mat-palette($mat-red);
 
 $ironsource-theme: mat-dark-theme($ironsource-primary, $ironsource-accent, $ironsource-warn);
 
-$ironsource-dark-theme: (
-  primary: $ironsource-primary,
+$ironsource-dark-theme: (primary: $ironsource-primary,
   accent: $ironsource-accent,
   warn: $ironsource-warn,
   is-dark: true,
   foreground: $mat-dark-theme-foreground,
-  background: $mat-dark-theme-background
-);
+  background: $mat-dark-theme-background);
 
 @include angular-material-theme($ironsource-dark-theme);
 
-
 html,
 body {
-    padding: 0;
-    margin: 0;
-    height:100%;
-    background-color: var(--background-color);
-    color: var(--text);
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  background-color: var(--background-color);
+  color: var(--text);
 }
