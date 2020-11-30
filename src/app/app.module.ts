@@ -15,7 +15,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
 import { TableComponent } from './components/table/table.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
